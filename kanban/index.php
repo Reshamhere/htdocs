@@ -2,6 +2,12 @@
 session_start();
 require 'config.php';
 
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php"); // Redirect to login page
+    exit();
+}
+
 // Handle task creation
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title'], $_POST['description'])) {
     $user_id = $_SESSION['user_id'];
@@ -16,8 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title'], $_POST['descr
     header("Location: index.php");
     exit();
 }
-?>
 
+// Include task fetching logic
+include 'get_tasks.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title'], $_POST['descr
 </head>
 <body>
     <h2>Kanban Board</h2>
+    <a href="logout.php">Logout</a>
     <div id="kanban-board">
         <div class="column">
             <h3>To Do</h3>
@@ -39,17 +48,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title'], $_POST['descr
                 <button type="submit">Add Task</button>
             </form>
             <div class="task-list" id="todo-list">
-                <?php include 'get_tasks.php'; renderTasks($todoTasks); ?>
+                <?php renderTasks($todoTasks); ?>
             </div>
         </div>
         <div class="column">
             <h3>In Progress</h3>
+            <form action="index.php" method="POST">
+                <input type="text" name="title" placeholder="Task Title" required>
+                <input type="text" name="description" placeholder="Task Description" required>
+                <input type="hidden" name="status" value="In Progress">
+                <button type="submit">Add Task</button>
+            </form>
             <div class="task-list" id="in-progress-list">
                 <?php renderTasks($inProgressTasks); ?>
             </div>
         </div>
         <div class="column">
             <h3>Done</h3>
+            <form action="index.php" method="POST">
+                <input type="text" name="title" placeholder="Task Title" required>
+                <input type="text" name="description" placeholder="Task Description" required>
+                <input type="hidden" name="status" value="Done">
+                <button type="submit">Add Task</button>
+            </form>
             <div class="task-list" id="done-list">
                 <?php renderTasks($doneTasks); ?>
             </div>
@@ -57,5 +78,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['title'], $_POST['descr
     </div>
 </body>
 </html>
-
-
