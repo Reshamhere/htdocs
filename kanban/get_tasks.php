@@ -26,9 +26,12 @@ if (isset($_SESSION['user_id'])) {
     // Function to render tasks
     function renderTasks($taskList) {
         foreach ($taskList as $task) {
-            echo '<div class="task">';
+            echo '<div class="task-card task">';
+            echo '<div class="task-content">';
             echo '<h4>' . htmlspecialchars($task['title']) . '</h4>';
             echo '<p>' . htmlspecialchars($task['description']) . '</p>';
+            echo '</div>';
+            echo '<div class="task-actions">';
             echo '<form action="update_task.php" method="POST">';
             echo '<input type="hidden" name="task_id" value="' . $task['id'] . '">';
             echo '<select name="status" onchange="this.form.submit()">';
@@ -39,8 +42,9 @@ if (isset($_SESSION['user_id'])) {
             echo '</form>';
             echo '<form action="delete_task.php" method="POST" style="display:inline;">';
             echo '<input type="hidden" name="task_id" value="' . $task['id'] . '">';
-            echo '<button type="submit">Delete</button>';
+            echo '<button class="delete-btn" type="submit">Delete</button>';
             echo '</form>';
+            echo '</div>';
             echo '</div>';
         }
     }

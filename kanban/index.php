@@ -32,11 +32,16 @@ include 'get_tasks.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles/newstyle.css">
     <title>Kanban Board</title>
 </head>
 <body>
-    <h2>Kanban Board</h2>
+    <div class="page-head">
+        <img src="favicon.ico" alt="Kanban Board Logo" class="logo" width="50px" height="50px">
+        <h2>Kanban Board</h2>
+    </div>
+    
     <a href="logout.php">Logout</a>
     <div id="kanban-board">
         <div class="column">
